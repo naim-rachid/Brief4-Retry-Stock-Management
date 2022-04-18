@@ -1,0 +1,27 @@
+#background {
+    /*background-image: url();*/
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.flex_section {
+    display: flex;
+    justify-content: space-between;
+}
+
+th, td {
+    border: 1px solid black;
+}
+
+table {
+    /*border: 1px solid black;*/
+    width: 95%;
+    border-collapse: collapse;
+    display: block;
+    overflow-x: auto;
+}
+
+#hide {
+    border: none;
+
+}
