@@ -115,12 +115,25 @@
                 }
                 // Call connection
                 $conn = null;
+                $result = 0;
                 require 'PHP_Config/DB_Connection.php';
                 // Prepare and Bind
-//                        if (!empty($id)) {
-                $stmt = $conn->prepare("UPDATE product SET `name` = ?, category = ?, quantity = ?, price = ?, image_url = ? WHERE id_product = ?");
+                if (is_uploaded_file($_FILES['image_url']['tmp_name'])) {
+                    echo "if 122";
+                    $sqlRequest = "UPDATE product SET `name` = ?, category = ?, quantity = ?, price = ?, image_url = ? WHERE id_product = ?";
+                } else {
+                    echo "else 125 !";
+                    $sqlRequest = "UPDATE product SET `name` = ?, category = ?, quantity = ?, price = ? WHERE id_product = ?";
+                }
+                $stmt = $conn->prepare($sqlRequest);
 //                            $stmt->bind_param("ssssss", $id, $name, $category, $quantity, $price, $image_url);
-                $result = $stmt->execute([$name, $category, $quantity, $price, $image_url, $id]);
+                if (is_uploaded_file($_FILES['image_url']['tmp_name'])) {
+                    echo "if 131";
+                    $result = $stmt->execute([$name, $category, $quantity, $price, $image_url, $id]);
+                } else {
+                    echo "else 134 !";
+                    $result = $stmt->execute([$name, $category, $quantity, $price, $id]);
+                }
 
                 if ($result) {
                     echo "The product with ID: " . $id . " was updated successfully";
@@ -128,7 +141,7 @@
                     echo "Error with updating the product " . $id . "!!!";
                 }
                 $stmt->close();
-//                        }
+
                 $conn->close();
             }
             function test_input($data) {
